@@ -1,0 +1,2788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Bootcamp Cheatsheet</title>
+    <link rel="icon" href="static\logo.png">
+    <style>
+        /* CSS Variables for Light Mode (Default) */
+        :root {
+            /* Black & Grey Color Palette */
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --bg-card: #151515;
+            --bg-sidebar: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #808080;
+            --accent-primary: #ffffff;
+            --accent-primary-dark: #cccccc;
+            --accent-secondary: #3a3a3a;
+            --accent-success: #00ff88;
+            --accent-warning: #ffaa00;
+            --accent-danger: #ff5555;
+            --accent-info: #00aaff;
+            --border-color: #333333;
+            --border-hover: #444444;
+            --code-bg: #000000;
+            --code-text: #ffffff;
+            --table-header-bg: #1a1a1a;
+            --table-row-even: #151515;
+            --table-row-hover: #222222;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.6);
+            --glow-primary: 0 0 20px rgba(255, 255, 255, 0.1);
+            --glow-secondary: 0 0 30px rgba(255, 255, 255, 0.2);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.5rem;
+            --space-6: 2rem;
+            --space-8: 3rem;
+            --space-10: 4rem;
+            --space-12: 6rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-full: 9999px;
+            
+            /* Layout */
+            --nav-height: 5rem;
+            --sidebar-width: 16rem;
+            --content-max-width: 80rem;
+            --content-padding: 2.5rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --bg-card: #ffffff;
+            --bg-sidebar: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-tertiary: #999999;
+            --accent-primary: #1a1a1a;
+            --accent-primary-dark: #000000;
+            --accent-secondary: #e0e0e0;
+            --accent-success: #00875a;
+            --accent-warning: #ff8c00;
+            --accent-danger: #dc3545;
+            --accent-info: #007acc;
+            --border-color: #dee2e6;
+            --border-hover: #adb5bd;
+            --code-bg: #1a1a1a;
+            --code-text: #ffffff;
+            --table-header-bg: #f1f3f5;
+            --table-row-even: #f8f9fa;
+            --table-row-hover: #e9ecef;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --glow-primary: 0 0 20px rgba(0, 0, 0, 0.1);
+            --glow-secondary: 0 0 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Base Styles */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.75;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            transition: background-color var(--transition-base);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Subtle grid background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        [data-theme="light"] body::before {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        }
+
+        /* Enhanced Navigation */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        [data-theme="light"] #navbar {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 0 var(--content-padding);
+            height: 100%;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+/* Enhanced Logo/Brand */
+.nav-brand {
+    flex-shrink: 0;
+}
+
+.nav-brand .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    min-height: 3.5rem; /* Maintain consistent height */
+}
+
+.nav-brand .logo:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .nav-brand .logo:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #ffffff, #888888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+/* New wrapper for logo text */
+.logo-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1;
+    min-height: 2.5rem; /* Match icon height */
+}
+
+.logo-main {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 0.1rem; /* Small space between lines */
+}
+
+.logo-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+    line-height: 1.1;
+}
+
+/* .logo-subtext {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-left: var(--space-2);
+} */
+
+/* New byline styling */
+.logo-byline {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-tertiary);
+    line-height: 1.1;
+    opacity: 0.8;
+    margin-top: 0.05rem; /* Fine-tuned spacing */
+}
+
+/* Adjustments for light theme */
+[data-theme="light"] .logo-byline {
+    color: var(--text-secondary);
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .logo-text {
+        font-size: 1rem;
+    }
+    
+    .logo-subtext {
+        font-size: 0.6rem;
+    }
+    
+    .logo-byline {
+        font-size: 0.45rem;
+        letter-spacing: 0.1em;
+    }
+}
+
+        /* Desktop Navigation */
+        .nav-desktop {
+            display: none;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        @media (min-width: 1024px) {
+            .nav-desktop {
+                display: flex;
+            }
+        }
+
+        .nav-links-desktop {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            list-style: none;
+        }
+
+        .nav-item-desktop {
+            position: relative;
+        }
+
+        .nav-link-desktop {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            white-space: nowrap;
+        }
+
+        .nav-link-desktop:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .nav-link-desktop.active {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            font-weight: 600;
+        }
+
+        /* Mega Menu for Sections */
+        .mega-dropdown {
+            position: relative;
+        }
+
+        .mega-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2);
+            min-width: 300px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-xl);
+            z-index: 1001;
+        } 
+
+        [data-theme="light"] .mega-menu {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        }
+
+        .mega-dropdown:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .mega-menu::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+        }
+
+        .mega-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-2) ;
+        }
+
+        .mega-menu-column h4 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-3);
+            padding-bottom: var(--space-2);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mega-menu-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-2);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            margin-bottom: var(--space-1);
+        }
+
+        .mega-menu-item:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .mega-menu-item .day-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: var(--bg-tertiary);
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mega-menu-item .day-info {
+            flex: 1;
+        }
+
+        .mega-menu-item .day-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .mega-menu-item .day-desc {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        /* Mobile Navigation */
+        .nav-mobile {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        @media (min-width: 1024px) {
+            .nav-mobile {
+                display: none;
+            }
+        }
+
+        .nav-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all var(--transition-base);
+        }
+
+        .nav-toggle:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-hover);
+        }
+
+        .nav-links-mobile {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            padding: var(--space-4);
+            max-height: calc(100vh - var(--nav-height));
+            overflow-y: auto;
+            display: none;
+            z-index: 999;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .nav-links-mobile.show {
+            display: block;
+        }
+
+        .nav-link-mobile {
+            display: flex;
+            align-items: center;
+            padding: var(--space-3) var(--space-4);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            font-weight: 500;
+            margin-bottom: var(--space-1);
+        }
+
+        .nav-link-mobile:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .nav-link-mobile.active {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            font-weight: 600;
+        }
+
+        /* Theme Toggle */
+        .mode-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all var(--transition-base);
+        }
+
+        .mode-toggle:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-hover);
+        }
+
+        /* Theme Toggle Icons */
+        .mode-toggle .light-icon,
+        [data-theme="dark"] .mode-toggle .dark-icon {
+            display: none;
+        }
+
+        .mode-toggle .dark-icon,
+        [data-theme="dark"] .mode-toggle .light-icon {
+            display: block;
+        }
+
+        /* Main Content */
+        #main-content {
+            margin-top: var(--nav-height);
+            padding: var(--content-padding);
+            max-width: var(--content-max-width);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-section {
+            margin-bottom: var(--space-10);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typography System */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin-bottom: var(--space-6);
+            position: relative;
+            padding-bottom: var(--space-4);
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), transparent);
+            border-radius: var(--radius-full);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: var(--space-10);
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-3);
+            position: relative;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: var(--radius-full);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: var(--space-8);
+            margin-bottom: var(--space-4);
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h3::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 30px;
+            height: 3px;
+            background: var(--accent-primary);
+            border-radius: var(--radius-full);
+        }
+
+        p {
+            margin-bottom: var(--space-4);
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            font-weight: 500;
+            position: relative;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width var(--transition-base);
+        }
+
+        a:hover {
+            color: var(--text-primary);
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        /* Topic Cards */
+        .topic-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+        }
+
+        .topic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl), var(--glow-secondary);
+            border-color: var(--border-hover);
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-5) 0;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            line-height: 1.7;
+            position: relative;
+            box-shadow: var(--shadow-md);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            background: var(--bg-tertiary);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: 0.875em;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            border: none;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            color: var(--code-text);
+        }
+
+        /* Syntax Highlighting */
+        .token.comment { color: #666666; font-style: italic; }
+        .token.keyword { color: #ffffff; font-weight: bold; }
+        .token.string { color: #cccccc; }
+        .token.number { color: #aaaaaa; font-weight: bold; }
+        .token.function { color: #dddddd; }
+        .token.class-name { color: #ffffff; }
+
+        [data-theme="light"] .token.comment { color: #666666; }
+        [data-theme="light"] .token.keyword { color: #000000; }
+        [data-theme="light"] .token.string { color: #333333; }
+        [data-theme="light"] .token.number { color: #000000; }
+        [data-theme="light"] .token.function { color: #222222; }
+
+        .copy-btn {
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-family: var(--font-primary);
+            font-weight: 500;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-sm);
+            opacity: 0.7;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+            background: var(--bg-secondary);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .copy-btn.copied {
+            background: var(--accent-success);
+            color: #000000;
+            border-color: var(--accent-success);
+        }
+
+        /* Grid Layouts */
+        .quick-ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-6) 0;
+        }
+
+        .best-practices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-6) 0;
+        }
+
+        .ref-card,
+        .practice-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ref-card::before,
+        .practice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-primary);
+        }
+
+        .ref-card:hover,
+        .practice-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--border-hover);
+        }
+
+        /* Tips and Pitfalls */
+        .tips,
+        .pitfalls {
+            background: var(--bg-card);
+            border-left: 4px solid;
+            padding: var(--space-6);
+            margin: var(--space-6) 0;
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tips {
+            border-left-color: var(--accent-success);
+        }
+
+        .pitfalls {
+            border-left-color: var(--accent-danger);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--space-6) 0;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: left;
+            padding: var(--space-5);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: var(--space-5);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+
+        table {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: var(--space-8);
+            right: var(--space-8);
+            width: 3.5rem;
+            height: 3.5rem;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            box-shadow: var(--shadow-xl);
+            transition: all var(--transition-base);
+        }
+
+        #back-to-top:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl), var(--glow-primary);
+        }
+
+        /* Copy Feedback */
+        #copy-feedback {
+            position: fixed;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-lg);
+            display: none;
+            z-index: 1001;
+            box-shadow: var(--shadow-xl);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            opacity: 0;
+            transition: all var(--transition-base);
+            border: 1px solid var(--border-color);
+        }
+
+        #copy-feedback.show {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.25rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+            
+            h3 {
+                font-size: 1.25rem;
+            }
+            
+            #main-content {
+                padding: var(--space-4);
+            }
+            
+            .nav-container {
+                padding: 0 var(--space-4);
+            }
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 3.25rem;
+            }
+            
+            h2 {
+                font-size: 2.25rem;
+            }
+            
+            h3 {
+                font-size: 1.75rem;
+            }
+            
+            .quick-ref-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .quick-ref-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .best-practices-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            /* Adjust mega menu for smaller screens */
+            .mega-menu {
+                min-width: 400px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .quick-ref-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .mega-menu {
+                min-width: 450px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .mega-menu {
+                display: none;
+            }
+        }
+
+        /* Day-specific styling */
+        #day1 .topic-card { border-left: 3px solid #ffffff; }
+        #day2 .topic-card { border-left: 3px solid #cccccc; }
+        #day3 .topic-card { border-left: 3px solid #aaaaaa; }
+        #day4 .topic-card { border-left: 3px solid #888888; }
+        #day5 .topic-card { border-left: 3px solid #666666; }
+        #day6 .topic-card { border-left: 3px solid #444444; }
+        #day7 .topic-card { border-left: 3px solid #222222; }
+        #day8 .topic-card { border-left: 3px solid #ffffff; }
+        #day9 .topic-card { border-left: 3px solid #cccccc; }
+        #day10 .topic-card { border-left: 3px solid #aaaaaa; }
+
+        [data-theme="light"] #day1 .topic-card { border-left: 3px solid #000000; }
+        [data-theme="light"] #day2 .topic-card { border-left: 3px solid #333333; }
+        [data-theme="light"] #day3 .topic-card { border-left: 3px solid #666666; }
+        [data-theme="light"] #day4 .topic-card { border-left: 3px solid #999999; }
+        [data-theme="light"] #day5 .topic-card { border-left: 3px solid #cccccc; }
+        [data-theme="light"] #day6 .topic-card { border-left: 3px solid #eeeeee; }
+        [data-theme="light"] #day7 .topic-card { border-left: 3px solid #000000; }
+        [data-theme="light"] #day8 .topic-card { border-left: 3px solid #333333; }
+        [data-theme="light"] #day9 .topic-card { border-left: 3px solid #666666; }
+        [data-theme="light"] #day10 .topic-card { border-left: 3px solid #999999; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-hover);
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Navigation -->
+<!-- Enhanced Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <!-- Logo/Brand -->
+                <div class="nav-brand">
+                    <a href="#quick-reference" class="logo">
+                        <div class="logo-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                                <path d="M13 4L4 14H12L11 20L20 10H12L13 4Z" stroke="currentColor" stroke-width="2" 
+                                    stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text-wrapper">
+                            <div class="logo-main">
+                                <span class="logo-text">PYTHON<br>BOOTCAMP CHEATSHEET</span>
+                                <!-- <span class="logo-subtext">CHEATSHEET</span> -->
+                            </div>
+                            <span class="logo-byline">by syntax syndicate</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-desktop">
+                    <ul class="nav-links-desktop">
+
+                        <li class="nav-item-desktop mega-dropdown">
+                            <a href="#" class="nav-link-desktop dropdown-toggle">DAYS ▾</a>
+                            <div class="mega-menu">
+                                <div class="mega-menu-grid">
+                                    <div class="mega-menu-column">
+                                        <h4>FOUNDATIONS</h4>
+                                        <a href="#day1" class="mega-menu-item">
+                                            <span class="day-number">1</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Foundations</div>
+                                                <div class="day-desc">Variables, Types, I/O</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day2" class="mega-menu-item">
+                                            <span class="day-number">2</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Operators & Flow</div>
+                                                <div class="day-desc">Conditionals, Logic</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day3" class="mega-menu-item">
+                                            <span class="day-number">3</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Loops</div>
+                                                <div class="day-desc">For, While, Patterns</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day4" class="mega-menu-item">
+                                            <span class="day-number">4</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Strings</div>
+                                                <div class="day-desc">Methods, Slicing</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day5" class="mega-menu-item">
+                                            <span class="day-number">5</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Collections</div>
+                                                <div class="day-desc">Lists, Tuples, Sets</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="mega-menu-column">
+                                        <h4>CORE CONCEPTS</h4>
+                                        <a href="#day6" class="mega-menu-item">
+                                            <span class="day-number">6</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Dictionaries</div>
+                                                <div class="day-desc">Key-Value Pairs</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day7" class="mega-menu-item">
+                                            <span class="day-number">7</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Functions</div>
+                                                <div class="day-desc">Lambdas, Recursion</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day8" class="mega-menu-item">
+                                            <span class="day-number">8</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Modules & Files</div>
+                                                <div class="day-desc">Importing, File I/O</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day9" class="mega-menu-item">
+                                            <span class="day-number">9</span>
+                                            <div class="day-info">
+                                                <div class="day-title">Exceptions</div>
+                                                <div class="day-desc">Error Handling</div>
+                                            </div>
+                                        </a>
+                                        <a href="#day10" class="mega-menu-item">
+                                            <span class="day-number">10</span>
+                                            <div class="day-info">
+                                                <div class="day-title">OOP</div>
+                                                <div class="day-desc">Classes, Inheritance</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item-desktop">
+                            <a href="#quick-reference" class="nav-link-desktop">QUICK REFERENCE</a>
+                        </li>                        
+                        <li class="nav-item-desktop">
+                            <a href="#best-practices" class="nav-link-desktop">BEST PRACTICES</a>
+                        </li>
+                    </ul>
+                    <button class="mode-toggle" aria-label="Toggle dark/light mode">
+                        <span class="light-icon">◐</span>
+                        <span class="dark-icon">◑</span>
+                    </button>                    
+                </div>
+
+                <!-- Mobile Navigation Controls -->
+                <div class="nav-mobile">
+                    <button class="mode-toggle" aria-label="Toggle dark/light mode">
+                        <span class="light-icon">◐</span>
+                        <span class="dark-icon">◑</span>
+                    </button>
+                    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Links -->
+        <div class="nav-links-mobile">
+            <a href="#quick-reference" class="nav-link-mobile">QUICK REFERENCE</a>
+            <a href="#day1" class="nav-link-mobile">DAY 1: FOUNDATIONS</a>
+            <a href="#day2" class="nav-link-mobile">DAY 2: OPERATORS & FLOW</a>
+            <a href="#day3" class="nav-link-mobile">DAY 3: LOOPS</a>
+            <a href="#day4" class="nav-link-mobile">DAY 4: STRINGS</a>
+            <a href="#day5" class="nav-link-mobile">DAY 5: COLLECTIONS</a>
+            <a href="#day6" class="nav-link-mobile">DAY 6: DICTIONARIES</a>
+            <a href="#day7" class="nav-link-mobile">DAY 7: FUNCTIONS</a>
+            <a href="#day8" class="nav-link-mobile">DAY 8: MODULES & FILES</a>
+            <a href="#day9" class="nav-link-mobile">DAY 9: EXCEPTIONS</a>
+            <a href="#day10" class="nav-link-mobile">DAY 10: OOP</a>
+            <a href="#best-practices" class="nav-link-mobile">BEST PRACTICES</a>
+        </div>
+    </nav>
+
+    <!-- Main Content (All existing content remains exactly the same) -->
+    <main id="main-content">
+        <!-- Quick Reference -->
+        <section id="quick-reference" class="content-section">
+            <h2>PYTHON QUICK REFERENCE</h2>
+            
+            <div class="quick-ref-grid">
+                <div class="ref-card">
+                    <h3>VARIABLES & TYPES</h3>
+                    <pre><code>x = 5  # int
+y = 3.14  # float
+name = "Python"  # str
+is_valid = True  # bool
+nums = [1, 2, 3]  # list
+coord = (4, 5)  # tuple
+unique = {1, 2, 3}  # set
+person = {"name": "John", "age": 30}  # dict</code></pre>
+                </div>
+                
+                <div class="ref-card">
+                    <h3>COMMON OPERATIONS</h3>
+                    <pre><code># Arithmetic
+result = 10 + 5 * 2  # 20
+
+# String concatenation
+full_name = "John" + " " + "Doe"
+
+# List operations
+nums.append(4)
+nums.pop()
+
+# Dictionary access
+age = person["age"]</code></pre>
+                </div>
+                
+                <div class="ref-card">
+                    <h3>CONTROL FLOW</h3>
+                    <pre><code># If statement
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+else:
+    grade = "C"
+
+# For loop
+for i in range(5):
+    print(i)
+
+# While loop
+while count < 10:
+    count += 1</code></pre>
+                </div>
+                
+                <div class="ref-card">
+                    <h3>ESSENTIAL FUNCTIONS</h3>
+                    <pre><code>len([1,2,3])  # 3
+type("hello")  # <class 'str'>
+int("42")  # 42
+str(100)  # "100"
+list(range(5))  # [0,1,2,3,4]
+sorted([3,1,2])  # [1,2,3]
+sum([1,2,3])  # 6</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 1: Python Foundations -->
+        <section id="day1" class="content-section">
+            <h2>DAY 1: PYTHON FOUNDATIONS</h2>
+            
+            <div class="topic-card">
+                <h3>VARIABLES & DATA TYPES</h3>
+                <p>Variables store data values. Python is dynamically typed.</p>
+                
+                    <pre><code># Integer
+age = 25
+print(type(age))  # <class 'int'>
+
+# Float
+price = 19.99
+print(type(price))  # <class 'float'>
+
+# String
+name = "Alice"
+print(type(name))  # <class 'str'>
+
+# Boolean
+is_active = True
+print(type(is_active))  # <class 'bool'></code></pre>
+        
+                
+                <div class="tips">
+                    <h4>TIPS:</h4>
+                    <ul>
+                        <li>Variable names should be descriptive (use snake_case)</li>
+                        <li>Python is case-sensitive: <code>myVar</code> ≠ <code>myvar</code></li>
+                        <li>Use <code>type()</code> to check variable type</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>TYPE CASTING</h3>
+                <p>Converting between data types.</p>
+                
+                <pre><code># String to integer
+num_str = "123"
+num_int = int(num_str)  # 123
+
+# Integer to string
+num = 456
+num_as_str = str(num)  # "456"
+
+# Float to integer (truncates decimal)
+float_num = 3.99
+int_num = int(float_num)  # 3 (not rounded!)
+
+# Integer to float
+int_num = 7
+float_num = float(int_num)  # 7.0</code></pre>
+                
+                <div class="pitfalls">
+                    <h4>COMMON PITFALLS:</h4>
+                    <ul>
+                        <li><code>int("3.14")</code> raises ValueError (use float first)</li>
+                        <li><code>int("hello")</code> raises ValueError</li>
+                        <li>Cast before operations: <code>int("5") + 10</code> works, <code>"5" + 10</code> doesn't</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>INPUT & OUTPUT</h3>
+                <p>Getting user input and displaying output.</p>
+                
+                <pre><code># Basic print
+print("Hello, World!")
+print("Value is:", 42)
+
+# Formatted output
+name = "Bob"
+age = 30
+print(f"{name} is {age} years old")  # f-string (modern)
+print("{} is {} years old".format(name, age))  # .format()
+print("%s is %d years old" % (name, age))  # % formatting
+
+# User input
+user_name = input("Enter your name: ")
+print(f"Hello, {user_name}!")
+
+# Input always returns string
+age_input = input("Enter your age: ")
+age = int(age_input)  # Convert to int for calculations</code></pre>
+            </div>
+        </section>
+
+        <!-- Day 2: Operators & Control Flow -->
+        <section id="day2" class="content-section">
+            <h2>DAY 2: OPERATORS & CONTROL FLOW</h2>
+            
+            <div class="topic-card">
+                <h3>OPERATORS</h3>
+                
+                <div class="operator-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>TYPE</th>
+                                <th>OPERATOR</th>
+                                <th>DESCRIPTION</th>
+                                <th>EXAMPLE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Arithmetic</td>
+                                <td><code>+ - * / // % **</code></td>
+                                <td>Addition, subtraction, multiplication, division, floor division, modulus, exponent</td>
+                                <td><code>10 // 3 = 3</code></td>
+                            </tr>
+                            <tr>
+                                <td>Comparison</td>
+                                <td><code>== != > < >= <=</code></td>
+                                <td>Equal, not equal, greater than, less than, etc.</td>
+                                <td><code>5 != 3 → True</code></td>
+                            </tr>
+                            <tr>
+                                <td>Logical</td>
+                                <td><code>and or not</code></td>
+                                <td>Logical AND, OR, NOT</td>
+                                <td><code>True and False → False</code></td>
+                            </tr>
+                            <tr>
+                                <td>Assignment</td>
+                                <td><code>= += -= *= /=</code></td>
+                                <td>Assign and update values</td>
+                                <td><code>x += 5 (x = x + 5)</code></td>
+                            </tr>
+                            <tr>
+                                <td>Membership</td>
+                                <td><code>in not in</code></td>
+                                <td>Check if value exists in sequence</td>
+                                <td><code>"a" in "apple" → True</code></td>
+                            </tr>
+                            <tr>
+                                <td>Identity</td>
+                                <td><code>is is not</code></td>
+                                <td>Check if objects are the same</td>
+                                <td><code>a is b</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>CONDITIONAL STATEMENTS</h3>
+                
+                <pre><code># Basic if-else
+age = 18
+if age >= 18:
+    print("You can vote!")
+else:
+    print("Too young to vote")
+
+# if-elif-else chain
+score = 85
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"  # This executes for score=85
+elif score >= 70:
+    grade = "C"
+else:
+    grade = "F"
+
+print(f"Grade: {grade}")
+
+# Nested conditions
+temperature = 25
+is_sunny = True
+
+if temperature > 20:
+    if is_sunny:
+        print("Perfect beach weather!")
+    else:
+        print("Warm but cloudy")
+else:
+    print("Too cold for beach")
+
+# One-liner (ternary)
+status = "adult" if age >= 18 else "minor"</code></pre>
+                
+                <div class="tips">
+                    <h4>TRUTHY & FALSY VALUES:</h4>
+                    <ul>
+                        <li><strong>Falsy:</strong> <code>False, 0, 0.0, "", [], {}, None</code></li>
+                        <li><strong>Truthy:</strong> Everything else (including negative numbers!)</li>
+                        <li>Useful for checking if list is empty: <code>if items:</code> (not <code>if len(items) > 0:</code>)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 3: Loops & Flow Control -->
+        <section id="day3" class="content-section">
+            <h2>DAY 3: LOOPS & FLOW CONTROL</h2>
+            
+            <div class="topic-card">
+                <h3>FOR LOOPS</h3>
+                
+                <pre><code># Basic for loop
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+
+# With range()
+for i in range(5):  # 0 to 4
+    print(i)
+
+for i in range(2, 8):  # 2 to 7
+    print(i)
+
+for i in range(0, 10, 2):  # 0, 2, 4, 6, 8
+    print(i)
+
+# Looping with index
+for i, fruit in enumerate(fruits):
+    print(f"{i}: {fruit}")
+
+# Nested loops
+for i in range(3):
+    for j in range(2):
+        print(f"({i}, {j})")</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>WHILE LOOPS</h3>
+                
+                <pre><code># Basic while loop
+count = 0
+while count < 5:
+    print(count)
+    count += 1  # Don't forget to increment!
+
+# While with condition
+password = ""
+while password != "secret":
+    password = input("Enter password: ")
+print("Access granted!")
+
+# Infinite loop (with break)
+while True:
+    user_input = input("Enter 'quit' to exit: ")
+    if user_input == "quit":
+        break
+    print(f"You entered: {user_input}")</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>LOOP CONTROL STATEMENTS</h3>
+                
+                <pre><code># break - exit loop immediately
+for i in range(10):
+    if i == 5:
+        break
+    print(i)  # Prints 0,1,2,3,4
+
+# continue - skip to next iteration
+for i in range(5):
+    if i == 2:
+        continue
+    print(i)  # Prints 0,1,3,4
+
+# pass - placeholder (does nothing)
+for i in range(5):
+    if i == 3:
+        pass  # TODO: Add implementation later
+    print(i)
+
+# else with loops (executes if loop completes without break)
+for i in range(3):
+    print(i)
+else:
+    print("Loop completed!")  # This runs
+
+for i in range(3):
+    if i == 1:
+        break
+    print(i)
+else:
+    print("Loop completed!")  # This doesn't run</code></pre>
+                
+                <div class="tips">
+                    <h4>PATTERN PRINTING EXAMPLE:</h4>
+                    <pre><code># Print right triangle
+for i in range(1, 6):
+    print("*" * i)
+
+# Output:
+# *
+# **
+# ***
+# ****
+# *****
+
+# Print pyramid
+n = 5
+for i in range(1, n+1):
+    spaces = " " * (n - i)
+    stars = "*" * (2*i - 1)
+    print(spaces + stars)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 4: Strings -->
+        <section id="day4" class="content-section">
+            <h2>DAY 4: STRINGS & STRING HANDLING</h2>
+            
+            <div class="topic-card">
+                <h3>STRING BASICS</h3>
+                
+                <pre><code># Creation
+s1 = "Hello"
+s2 = 'World'
+s3 = """Multi-line
+string"""
+s4 = str(123)  # "123"
+
+# Indexing
+text = "Python"
+first_char = text[0]  # "P"
+last_char = text[-1]  # "n"
+# text[0] = "J"  # ERROR: Strings are immutable!
+
+# Slicing [start:end:step]
+text = "Python Programming"
+print(text[0:6])  # "Python"
+print(text[7:])   # "Programming"
+print(text[:6])   # "Python"
+print(text[::2])  # "Pto rgamn"
+print(text[::-1]) # Reverse: "gnimmargorP nohtyP"</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>STRING METHODS</h3>
+                
+                <div class="method-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>METHOD</th>
+                                <th>DESCRIPTION</th>
+                                <th>EXAMPLE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>.upper() .lower()</code></td>
+                                <td>Case conversion</td>
+                                <td><code>"Hello".upper() → "HELLO"</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.strip() .lstrip() .rstrip()</code></td>
+                                <td>Remove whitespace</td>
+                                <td><code>"  hi  ".strip() → "hi"</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.split() .join()</code></td>
+                                <td>Split/join strings</td>
+                                <td><code>"a,b,c".split(",") → ["a","b","c"]</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.replace()</code></td>
+                                <td>Replace substring</td>
+                                <td><code>"hello".replace("l","x") → "hexxo"</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.find() .index()</code></td>
+                                <td>Find substring</td>
+                                <td><code>"hello".find("ll") → 2</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.startswith() .endswith()</code></td>
+                                <td>Check prefix/suffix</td>
+                                <td><code>"file.txt".endswith(".txt") → True</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.isalpha() .isdigit() .isalnum()</code></td>
+                                <td>Character tests</td>
+                                <td><code>"abc".isalpha() → True</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>STRING PROBLEMS</h3>
+                
+                <pre><code># Palindrome check
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+print(is_palindrome("racecar"))  # True
+print(is_palindrome("hello"))    # False
+
+# Anagram check
+def is_anagram(s1, s2):
+    return sorted(s1.lower()) == sorted(s2.lower())
+
+print(is_anagram("listen", "silent"))  # True
+print(is_anagram("hello", "world"))    # False</code></pre>
+            </div>
+        </section>
+
+        <!-- Day 5: Lists, Tuples & Sets -->
+        <section id="day5" class="content-section">
+            <h2>DAY 5: LISTS, TUPLES & SETS</h2>
+            
+            <div class="topic-card">
+                <h3>LISTS</h3>
+                
+                <pre><code># Creation
+numbers = [1, 2, 3, 4, 5]
+mixed = [1, "hello", 3.14, True]
+empty = []
+from_range = list(range(5))  # [0,1,2,3,4]
+
+# Access & modification
+numbers[0] = 10  # Lists are mutable
+print(numbers[-1])  # Last element: 5
+print(numbers[1:4])  # Slice: [2,3,4]
+
+# Common methods
+numbers.append(6)  # Add to end
+numbers.insert(0, 0)  # Insert at index 0
+numbers.extend([7, 8])  # Add multiple items
+removed = numbers.pop()  # Remove last item (8)
+numbers.remove(3)  # Remove first occurrence of 3
+if 4 in numbers:  # Check existence
+    print("Found 4")
+    
+# List comprehension (powerful!)
+squares = [x**2 for x in range(10)]
+even_squares = [x**2 for x in range(10) if x % 2 == 0]</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>TUPLES</h3>
+                
+                <pre><code># Creation (immutable)
+point = (10, 20)
+single = (5,)  # Comma required for single element
+coordinates = tuple([1, 2, 3])
+
+# Access (same as lists)
+x = point[0]
+y = point[1]
+
+# Unpacking
+x, y = point  # x=10, y=20
+
+# Why use tuples?
+# 1. Faster than lists
+# 2. Safe (can't be modified accidentally)
+# 3. Can be used as dictionary keys
+# 4. Return multiple values from functions
+
+# Returning multiple values
+def get_stats(numbers):
+    return min(numbers), max(numbers), sum(numbers)/len(numbers)
+
+min_val, max_val, avg = get_stats([1,2,3,4,5])</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>SETS</h3>
+                
+                <pre><code># Creation (unique, unordered)
+unique_nums = {1, 2, 3, 3, 2}  # {1, 2, 3}
+empty_set = set()  # {} creates empty dict!
+
+# Set operations
+A = {1, 2, 3, 4}
+B = {3, 4, 5, 6}
+
+print(A | B)  # Union: {1,2,3,4,5,6}
+print(A & B)  # Intersection: {3,4}
+print(A - B)  # Difference: {1,2}
+print(A ^ B)  # Symmetric difference: {1,2,5,6}
+
+# Methods
+A.add(5)
+A.remove(2)  # Error if not exists
+A.discard(2)  # No error if not exists
+A.pop()  # Remove random element
+
+# Set comprehension
+unique_chars = {char for char in "hello world" if char != " "}</code></pre>
+            </div>
+        </section>
+
+        <!-- Day 6: Dictionaries -->
+        <section id="day6" class="content-section">
+            <h2>DAY 6: DICTIONARIES & DATA STRUCTURES</h2>
+            
+            <div class="topic-card">
+                <h3>DICTIONARY BASICS</h3>
+                
+                <pre><code># Creation
+student = {"name": "Alice", "age": 20, "grade": "A"}
+empty_dict = {}
+another = dict(name="Bob", age=21)
+
+# Access
+print(student["name"])  # "Alice"
+print(student.get("age"))  # 20
+print(student.get("height", "N/A"))  # "N/A" (default if key missing)
+
+# Modification
+student["age"] = 21  # Update
+student["height"] = 165  # Add new key
+del student["grade"]  # Remove key
+
+# Check key existence
+if "name" in student:
+    print("Name exists")
+
+# Iteration
+for key in student:  # Or student.keys()
+    print(key, student[key])
+
+for key, value in student.items():
+    print(f"{key}: {value}")</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>DICTIONARY METHODS</h3>
+                
+                <div class="method-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>METHOD</th>
+                                <th>DESCRIPTION</th>
+                                <th>EXAMPLE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>.keys()</code></td>
+                                <td>Get all keys</td>
+                                <td><code>list(student.keys())</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.values()</code></td>
+                                <td>Get all values</td>
+                                <td><code>list(student.values())</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.items()</code></td>
+                                <td>Get (key, value) pairs</td>
+                                <td><code>list(student.items())</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.get(key, default)</code></td>
+                                <td>Safe access with default</td>
+                                <td><code>student.get("x", 0)</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.pop(key, default)</code></td>
+                                <td>Remove and return value</td>
+                                <td><code>age = student.pop("age")</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.update(other_dict)</code></td>
+                                <td>Merge dictionaries</td>
+                                <td><code>student.update({"city": "NYC"})</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>.setdefault(key, default)</code></td>
+                                <td>Get value or set default</td>
+                                <td><code>student.setdefault("score", 100)</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>NESTED DICTIONARIES & JSON</h3>
+                
+                <pre><code># Nested dictionary
+company = {
+    "name": "TechCorp",
+    "employees": {
+        "101": {"name": "Alice", "position": "Developer"},
+        "102": {"name": "Bob", "position": "Designer"}
+    },
+    "departments": ["IT", "HR", "Finance"]
+}
+
+# Access nested values
+print(company["employees"]["101"]["name"])  # "Alice"
+
+# JSON-like structure (common in web APIs)
+import json
+
+# Python dict to JSON string
+person_dict = {"name": "John", "age": 30}
+json_string = json.dumps(person_dict)  # '{"name": "John", "age": 30}'
+
+# JSON string to Python dict
+parsed_dict = json.loads(json_string)
+
+# Dictionary comprehension
+squares = {x: x**2 for x in range(5)}  # {0:0, 1:1, 2:4, 3:9, 4:16}</code></pre>
+            </div>
+        </section>
+
+        <!-- Day 7: Functions -->
+        <section id="day7" class="content-section">
+            <h2>DAY 7: FUNCTIONS & FUNCTIONAL PROGRAMMING</h2>
+            
+            <div class="topic-card">
+                <h3>FUNCTION BASICS</h3>
+                
+                <pre><code># Defining functions
+def greet(name):
+    """Return a greeting message."""  # Docstring
+    return f"Hello, {name}!"
+
+# Calling functions
+message = greet("Alice")
+print(message)  # "Hello, Alice!"
+
+# Functions without return
+def print_sum(a, b):
+    print(f"Sum: {a + b}")  # Returns None
+
+# Multiple return values
+def min_max(numbers):
+    return min(numbers), max(numbers)
+
+low, high = min_max([1, 5, 2, 8, 3])</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>FUNCTION ARGUMENTS</h3>
+                
+                <pre><code># Positional arguments
+def power(base, exponent):
+    return base ** exponent
+
+result = power(2, 3)  # 8
+
+# Keyword arguments
+result = power(exponent=3, base=2)  # Order doesn't matter
+
+# Default parameters
+def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+print(greet("Alice"))  # "Hello, Alice!"
+print(greet("Bob", "Hi"))  # "Hi, Bob!"
+
+# Variable-length arguments
+def sum_all(*args):  # args is a tuple
+    return sum(args)
+
+print(sum_all(1, 2, 3, 4))  # 10
+
+def print_info(**kwargs):  # kwargs is a dictionary
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_info(name="Alice", age=25, city="NYC")</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>LAMBDA & FUNCTIONAL TOOLS</h3>
+                
+                <pre><code># Lambda functions (anonymous)
+square = lambda x: x ** 2
+print(square(5))  # 25
+
+# Often used with map, filter, reduce
+numbers = [1, 2, 3, 4, 5]
+
+# map: apply function to all items
+squares = list(map(lambda x: x**2, numbers))  # [1, 4, 9, 16, 25]
+
+# filter: keep items where function returns True
+evens = list(filter(lambda x: x % 2 == 0, numbers))  # [2, 4]
+
+# reduce: apply function cumulatively
+from functools import reduce
+product = reduce(lambda x, y: x * y, numbers)  # 120
+
+# List comprehension alternative
+squares = [x**2 for x in numbers]  # Often more readable
+evens = [x for x in numbers if x % 2 == 0]</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>RECURSION</h3>
+                
+                <pre><code># Factorial example
+def factorial(n):
+    if n <= 1:  # Base case
+        return 1
+    return n * factorial(n - 1)  # Recursive case
+
+print(factorial(5))  # 120
+
+# Fibonacci sequence
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print(fibonacci(6))  # 8
+
+# Recursion tips:
+# 1. Always have a base case
+# 2. Ensure progress toward base case
+# 3. Python has recursion limit (~1000)</code></pre>
+            </div>
+        </section>
+
+        <!-- Day 8: Modules & File Handling -->
+        <section id="day8" class="content-section">
+            <h2>DAY 8: MODULES, PACKAGES & FILE HANDLING</h2>
+            
+            <div class="topic-card">
+                <h3>MODULES</h3>
+                
+                <pre><code># Importing modules
+import math
+print(math.sqrt(16))  # 4.0
+
+# Import with alias
+import datetime as dt
+today = dt.date.today()
+
+# Import specific functions
+from random import randint, choice
+number = randint(1, 10)
+item = choice(["apple", "banana", "cherry"])
+
+# Import everything (not recommended)
+from os import *  # Pollutes namespace
+
+# Create your own module
+# Save as mymodule.py:
+"""
+def greet(name):
+    return f"Hello, {name}!"
+
+PI = 3.14159
+"""
+
+# Then import it:
+# import mymodule
+# print(mymodule.greet("Alice"))</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>USEFUL BUILT-IN MODULES</h3>
+                
+                <div class="module-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MODULE</th>
+                                <th>PURPOSE</th>
+                                <th>COMMON FUNCTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>math</code></td>
+                                <td>Mathematical operations</td>
+                                <td><code>sqrt(), ceil(), floor(), pi</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>random</code></td>
+                                <td>Random number generation</td>
+                                <td><code>randint(), choice(), shuffle()</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>datetime</code></td>
+                                <td>Date and time operations</td>
+                                <td><code>date.today(), datetime.now()</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>os</code></td>
+                                <td>Operating system interface</td>
+                                <td><code>listdir(), getcwd(), path.join()</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>sys</code></td>
+                                <td>System parameters</td>
+                                <td><code>argv, exit(), version</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>json</code></td>
+                                <td>JSON encoding/decoding</td>
+                                <td><code>dumps(), loads()</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>FILE HANDLING</h3>
+                
+                <pre><code># Reading files
+with open("data.txt", "r") as file:  # 'r' = read mode
+    content = file.read()  # Read entire file
+    # OR: lines = file.readlines()  # List of lines
+
+# Writing files
+with open("output.txt", "w") as file:  # 'w' = write (overwrites)
+    file.write("Hello, World!\n")
+    file.write("Second line\n")
+
+# Appending to files
+with open("log.txt", "a") as file:  # 'a' = append
+    file.write("New log entry\n")
+
+# Reading line by line (memory efficient)
+with open("large_file.txt", "r") as file:
+    for line in file:
+        print(line.strip())  # Process each line
+
+# File modes:
+# 'r' - read (default)
+# 'w' - write (creates or truncates)
+# 'a' - append (creates or appends)
+# 'x' - exclusive creation (fails if exists)
+# 'b' - binary mode ('rb', 'wb')
+# '+' - read and write ('r+', 'w+')</code></pre>
+            </div>
+        </section>
+
+        <!-- Day 9: Exception Handling -->
+        <section id="day9" class="content-section">
+            <h2>DAY 9: EXCEPTION HANDLING & DEBUGGING</h2>
+            
+            <div class="topic-card">
+                <h3>EXCEPTION HANDLING BASICS</h3>
+                
+                <pre><code># Basic try-except
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+
+# Multiple exceptions
+try:
+    num = int(input("Enter a number: "))
+    result = 10 / num
+    print(f"Result: {result}")
+except ValueError:
+    print("Invalid input! Please enter a number.")
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+except Exception as e:  # Catch any other exception
+    print(f"Unexpected error: {e}")
+
+# else and finally
+try:
+    file = open("data.txt", "r")
+    content = file.read()
+except FileNotFoundError:
+    print("File not found!")
+else:
+    print("File read successfully!")
+    print(content)
+finally:
+    print("This always executes")
+    # Good for cleanup (closing files, connections)</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>COMMON EXCEPTIONS</h3>
+                
+                <div class="exception-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>EXCEPTION</th>
+                                <th>CAUSE</th>
+                                <th>EXAMPLE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>ValueError</code></td>
+                                <td>Invalid value/conversion</td>
+                                <td><code>int("abc")</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>TypeError</code></td>
+                                <td>Wrong type operation</td>
+                                <td><code>"5" + 3</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>IndexError</code></td>
+                                <td>Invalid sequence index</td>
+                                <td><code>list[10]</code> (list has 3 items)</td>
+                            </tr>
+                            <tr>
+                                <td><code>KeyError</code></td>
+                                <td>Missing dictionary key</td>
+                                <td><code>dict["missing_key"]</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>FileNotFoundError</code></td>
+                                <td>File doesn't exist</td>
+                                <td><code>open("nonexistent.txt")</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>ZeroDivisionError</code></td>
+                                <td>Division by zero</td>
+                                <td><code>10 / 0</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>AttributeError</code></td>
+                                <td>Attribute doesn't exist</td>
+                                <td><code>"hello".non_existent()</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>RAISING EXCEPTIONS</h3>
+                
+                <pre><code># Raising exceptions
+def calculate_age(birth_year):
+    if birth_year < 1900 or birth_year > 2023:
+        raise ValueError("Invalid birth year")
+    return 2023 - birth_year
+
+try:
+    age = calculate_age(1800)
+except ValueError as e:
+    print(f"Error: {e}")
+
+# Custom exceptions
+class InvalidEmailError(Exception):
+    """Exception raised for invalid email addresses."""
+    def __init__(self, email, message="Invalid email address"):
+        self.email = email
+        self.message = message
+        super().__init__(self.message)
+
+def validate_email(email):
+    if "@" not in email:
+        raise InvalidEmailError(email)
+    return True
+
+# Assertions (for debugging)
+def calculate_average(numbers):
+    assert len(numbers) > 0, "List cannot be empty"
+    return sum(numbers) / len(numbers)</code></pre>
+            </div>
+        </section>
+
+        <!-- Day 10: OOP -->
+        <section id="day10" class="content-section">
+            <h2>DAY 10: OBJECT-ORIENTED PROGRAMMING (OOP)</h2>
+            
+            <div class="topic-card">
+                <h3>CLASSES & OBJECTS</h3>
+                
+                <pre><code># Basic class
+class Dog:
+    # Class attribute (shared by all instances)
+    species = "Canis familiaris"
+    
+    # Constructor (__init__ method)
+    def __init__(self, name, age):
+        # Instance attributes
+        self.name = name
+        self.age = age
+    
+    # Instance method
+    def bark(self):
+        return f"{self.name} says woof!"
+    
+    def get_info(self):
+        return f"{self.name} is {self.age} years old"
+
+# Creating objects
+dog1 = Dog("Buddy", 3)
+dog2 = Dog("Max", 5)
+
+print(dog1.bark())  # "Buddy says woof!"
+print(dog2.get_info())  # "Max is 5 years old"
+print(Dog.species)  # "Canis familiaris" (class attribute)</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>INHERITANCE</h3>
+                
+                <pre><code># Base class
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def speak(self):
+        raise NotImplementedError("Subclass must implement this method")
+
+# Child class
+class Cat(Animal):
+    def __init__(self, name, color):
+        super().__init__(name)  # Call parent constructor
+        self.color = color
+    
+    # Override parent method
+    def speak(self):
+        return f"{self.name} says meow!"
+    
+    def get_info(self):
+        return f"{self.name} is a {self.color} cat"
+
+# Using inheritance
+cat = Cat("Whiskers", "orange")
+print(cat.speak())  # "Whiskers says meow!"
+print(cat.get_info())  # "Whiskers is an orange cat"
+
+# Multiple inheritance
+class Pet:
+    def __init__(self, owner):
+        self.owner = owner
+
+class DogPet(Dog, Pet):
+    def __init__(self, name, age, owner):
+        Dog.__init__(self, name, age)
+        Pet.__init__(self, owner)</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>ENCAPSULATION & SPECIAL METHODS</h3>
+                
+                <pre><code># Encapsulation with private attributes
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.__balance = balance  # Private attribute
+    
+    # Getter method
+    def get_balance(self):
+        return self.__balance
+    
+    # Setter method (with validation)
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+            return True
+        return False
+    
+    def withdraw(self, amount):
+        if 0 < amount <= self.__balance:
+            self.__balance -= amount
+            return True
+        return False
+
+# Special methods (dunder methods)
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __str__(self):  # String representation
+        return f"Vector({self.x}, {self.y})"
+    
+    def __repr__(self):  # Official representation
+        return f"Vector({self.x}, {self.y})"
+    
+    def __add__(self, other):  # + operator
+        return Vector(self.x + other.x, self.y + other.y)
+    
+    def __len__(self):  # len() function
+        return 2
+    
+    def __eq__(self, other):  # == operator
+        return self.x == other.x and self.y == other.y
+
+v1 = Vector(2, 3)
+v2 = Vector(1, 1)
+print(v1 + v2)  # Vector(3, 4)
+print(v1 == v2)  # False</code></pre>
+            </div>
+            
+            <div class="topic-card">
+                <h3>POLYMORPHISM & ABSTRACTION</h3>
+                
+                <pre><code># Polymorphism - same interface, different implementation
+class Shape:
+    def area(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def area(self):
+        return 3.14 * self.radius ** 2
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def area(self):
+        return self.width * self.height
+
+# Different objects, same method
+shapes = [Circle(5), Rectangle(4, 6)]
+for shape in shapes:
+    print(f"Area: {shape.area()}")  # Polymorphic call
+
+# Abstraction - hide complex implementation
+from abc import ABC, abstractmethod
+
+class Database(ABC):
+    @abstractmethod
+    def connect(self):
+        pass
+    
+    @abstractmethod
+    def query(self, sql):
+        pass
+
+class MySQLDatabase(Database):
+    def connect(self):
+        print("Connecting to MySQL...")
+    
+    def query(self, sql):
+        print(f"Executing MySQL query: {sql}")
+
+# Can't instantiate abstract class
+# db = Database()  # Error!
+db = MySQLDatabase()  # OK</code></pre>
+            </div>
+        </section>
+        
+        <!-- Best Practices -->
+        <section id="best-practices" class="content-section">
+            <h2>PYTHON BEST PRACTICES</h2>
+            
+            <div class="best-practices-grid">
+                <div class="practice-card">
+                    <h3>CODE STYLE (PEP 8)</h3>
+                    <ul>
+                        <li>Use 4 spaces per indentation (no tabs)</li>
+                        <li>Limit lines to 79 characters</li>
+                        <li>Use descriptive variable names (snake_case)</li>
+                        <li>Class names should be CamelCase</li>
+                        <li>Constants should be UPPER_CASE</li>
+                        <li>Use spaces around operators and after commas</li>
+                    </ul>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>ERROR HANDLING</h3>
+                    <ul>
+                        <li>Be specific with exception types</li>
+                        <li>Use <code>try-except</code> only where needed</li>
+                        <li>Always close resources (use <code>with</code> statement)</li>
+                        <li>Log errors for debugging</li>
+                        <li>Don't use bare <code>except:</code> (catch-all)</li>
+                    </ul>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>PERFORMANCE TIPS</h3>
+                    <ul>
+                        <li>Use list comprehensions for simple loops</li>
+                        <li>Use <code>join()</code> for string concatenation in loops</li>
+                        <li>Avoid global variables</li>
+                        <li>Use generators for large datasets</li>
+                        <li>Profile before optimizing</li>
+                    </ul>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>DEBUGGING TIPS</h3>
+                    <ul>
+                        <li>Use <code>print()</code> for quick debugging</li>
+                        <li>Learn to use Python debugger (<code>pdb</code>)</li>
+                        <li>Read error messages carefully</li>
+                        <li>Add type hints for clarity</li>
+                        <li>Write unit tests</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3>MEMORY AIDS & MNEMONICS</h3>
+                
+                <div class="mnemonic-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CONCEPT</th>
+                                <th>MEMORY AID</th>
+                                <th>EXPLANATION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>List vs Tuple</td>
+                                <td>"Mutable List, Immutable Tuple"</td>
+                                <td>Lists can change, tuples cannot</td>
+                            </tr>
+                            <tr>
+                                <td>Dictionary Keys</td>
+                                <td>"Keys must be hashable"</td>
+                                <td>Strings, numbers, tuples (immutable) work as keys</td>
+                            </tr>
+                            <tr>
+                                <td>String Methods</td>
+                                <td>"isX() tests, X() transforms"</td>
+                                <td><code>isalpha()</code> tests, <code>upper()</code> transforms</td>
+                            </tr>
+                            <tr>
+                                <td>Slicing</td>
+                                <td>"[start:stop:step]"</td>
+                                <td>Start included, stop excluded, step direction</td>
+                            </tr>
+                            <tr>
+                                <td>Truthy/Falsy</td>
+                                <td>"Empty is Falsy"</td>
+                                <td><code>0, "", [], {}, None</code> are all falsy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Copy Feedback Element -->
+    <div id="copy-feedback" aria-live="polite">CODE COPIED</div>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // Theme toggle functionality
+        const themeToggles = document.querySelectorAll('.mode-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Check for saved theme or preferred scheme
+        const currentTheme = localStorage.getItem('theme') || 
+                            (prefersDarkScheme.matches ? 'dark' : 'light');
+        
+        // Apply the theme
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // Toggle theme for ALL toggle buttons
+        themeToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                let newTheme = 'light';
+                
+                if (!currentTheme || currentTheme === 'light') {
+                    newTheme = 'dark';
+                }
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+        });
+        
+        // Navigation toggle for mobile
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinksMobile = document.querySelector('.nav-links-mobile');
+        
+        if (navToggle && navLinksMobile) {
+            navToggle.addEventListener('click', function() {
+                navLinksMobile.classList.toggle('show');
+                this.textContent = navLinksMobile.classList.contains('show') ? '✕' : '☰';
+            });
+        }
+        
+        // Close mobile nav when clicking a link
+        document.querySelectorAll('.nav-link-mobile, .nav-link-desktop').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinksMobile && navToggle) {
+                    navLinksMobile.classList.remove('show');
+                    navToggle.textContent = '☰';
+                }
+            });
+        });
+        
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            if (navLinksMobile && navToggle && !navToggle.contains(e.target) && !navLinksMobile.contains(e.target)) {
+                navLinksMobile.classList.remove('show');
+                navToggle.textContent = '☰';
+            }
+        });
+        
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+        
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Copy to clipboard functionality
+        document.querySelectorAll('pre code').forEach(codeBlock => {
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = '<span>COPY</span>';
+            copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
+            
+            codeBlock.parentNode.insertBefore(copyBtn, codeBlock);
+            
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(codeBlock.textContent);
+                    
+                    // Show feedback
+                    const feedback = document.getElementById('copy-feedback');
+                    if (feedback) {
+                        feedback.classList.add('show');
+                        setTimeout(() => {
+                            feedback.classList.remove('show');
+                        }, 2000);
+                    }
+                    
+                    // Visual feedback on button
+                    copyBtn.classList.add('copied');
+                    copyBtn.innerHTML = '<span>COPIED</span>';
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyBtn.innerHTML = '<span>COPY</span>';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+            });
+        });
+        
+        // Highlight current section in navigation
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.nav-link-mobile, .nav-link-desktop');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Fade in content sections on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Add loading class to all sections initially
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.add('loading');
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Alt + T to toggle theme
+            if (e.altKey && e.key === 't') {
+                if (themeToggle) themeToggle.click();
+            }
+            // Escape to close mobile nav
+            if (e.key === 'Escape') {
+                if (navLinksMobile) {
+                    navLinksMobile.classList.remove('show');
+                    if (navToggle) navToggle.textContent = '☰';
+                }
+            }
+        });
+        
+        // Close mega menu when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const megaMenus = document.querySelectorAll('.mega-menu');
+            megaMenus.forEach(menu => {
+                if (!menu.contains(e.target) && !e.target.closest('.mega-dropdown')) {
+                    // Only handle if needed
+                }
+            });
+        });
+        
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Close mobile nav on resize to desktop
+                if (window.innerWidth >= 1024 && navLinksMobile) {
+                    navLinksMobile.classList.remove('show');
+                    if (navToggle) navToggle.textContent = '☰';
+                }
+            }, 250);
+        });
+    </script>
+</body>
+</html>
